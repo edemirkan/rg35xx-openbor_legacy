@@ -15,5 +15,5 @@ $ cd rg35xx-openbor
 ## 3. Compiling
 ```
 $ make clean-all
-$ make make BUILD_RG35XX=1
+$ make BUILD_RG35XX=1
 ```
