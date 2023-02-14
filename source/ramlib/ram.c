@@ -27,14 +27,14 @@
 #include <mach/task.h>
 #include <mach/mach.h>
 #include <mach/mach_init.h>
-#elif LINUX
+#elif LINUX || RG35XX
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #elif PSP
 #include "kernel/kernel.h"
 #elif GP2X
 #include "gp2xport.h"
-#elif OPENDINGUX || RG35XX
+#elif OPENDINGUX
 #include <stdlib.h>
 #endif
 
@@ -54,8 +54,10 @@ static u64 systemRam = 0x00000000;
 #ifndef WIN
 #ifndef XBOX
 #ifndef LINUX
+#ifndef RG35XX
 static unsigned long elfOffset = 0x00000000;
 static unsigned long stackSize = 0x00000000;
+#endif
 #endif
 #endif
 #endif
@@ -68,6 +70,7 @@ static unsigned long stackSize = 0x00000000;
 #ifndef WIN
 #ifndef XBOX
 #ifndef LINUX
+#ifndef RG35XX
 #if (__GNUC__ > 3)
 extern unsigned long _end;
 extern unsigned long _start;
@@ -76,6 +79,7 @@ extern unsigned long end;
 extern unsigned long start;
 #define _end end
 #define _start start
+#endif
 #endif
 #endif
 #endif
@@ -107,11 +111,11 @@ u64 getFreeRam(int byte_size)
         return 0;
     }
     return (u64)(((vms.inactive_count + vms.free_count) * size) / byte_size);
-#elif LINUX
+#elif LINUX || RG35XX
     struct sysinfo info;
     sysinfo(&info);
     return ((u64)info.freeram) * info.mem_unit;
-#elif OPENDINGUX || RG35XX
+#elif OPENDINGUX
     FILE *file = NULL;
     const unsigned char size = 5;
     const unsigned char pos = 47;
@@ -152,7 +156,7 @@ void setSystemRam()
     size_t len = sizeof(mem);
     sysctlbyname("hw.memsize", &mem, &len, NULL, 0);
     systemRam = mem;
-#elif LINUX
+#elif LINUX || RG35XX
     struct sysinfo info;
     sysinfo(&info);
     systemRam = ((u64)info.totalram) * info.mem_unit;
@@ -180,7 +184,7 @@ void setSystemRam()
     // 42 MBytes - Memory Map:
     systemRam = 0x029fffff - 0x0000a2e0;
     elfOffset = 0x0000a2e0;
-#elif OPENDINGUX || RG35XX
+#elif OPENDINGUX
     // 32 MBytes - IPU Memory:
     //systemRam = 0x02000000 - 0x002C6000;
     systemRam = 0x01c8c000;//Opendingux
@@ -199,7 +203,9 @@ void setSystemRam()
 #ifndef XBOX
 #ifndef LINUX
 #ifndef SYMBIAN
+#ifndef RG35XX
     stackSize = (int)&_end - (int)&_start + ((int)&_start - elfOffset);
+#endif
 #endif
 #endif
 #endif
@@ -234,7 +240,7 @@ u64 getUsedRam(int byte_size)
         return 0;
     }
     return info.resident_size / byte_size;
-#elif LINUX
+#elif LINUX || RG35XX
     unsigned long vm = 0;
     FILE *file = fopen("/proc/self/statm", "r");
     if (file == NULL)
