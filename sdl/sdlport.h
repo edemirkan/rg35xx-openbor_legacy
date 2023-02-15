@@ -16,7 +16,7 @@
 #include <string.h>
 #include "globals.h"
 
-#if GP2X || LINUX || OPENDINGUX || SYMBIAN || RG35XX
+#if GP2X || LINUX || OPENDINGUX || SYMBIAN
 #define stricmp  strcasecmp
 #define strnicmp strncasecmp
 #endif
@@ -25,7 +25,7 @@
 #define SDL2 1
 #endif
 
-#if GP2X || DARWIN || OPENDINGUX || WII || ANDROID || RG35XX
+#if GP2X || DARWIN || OPENDINGUX || WII || ANDROID
 #define SKIP_CODE
 #endif
 

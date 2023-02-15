@@ -27,7 +27,7 @@
 #include <mach/task.h>
 #include <mach/mach.h>
 #include <mach/mach_init.h>
-#elif LINUX || RG35XX
+#elif LINUX
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #elif PSP
@@ -50,27 +50,15 @@
 
 static u64 systemRam = 0x00000000;
 
-#ifndef DARWIN
-#ifndef WIN
-#ifndef XBOX
-#ifndef LINUX
-#ifndef RG35XX
+#if !(defined(WIN) || defined(LINUX) || defined(DARWIN))
 static unsigned long elfOffset = 0x00000000;
 static unsigned long stackSize = 0x00000000;
-#endif
-#endif
-#endif
-#endif
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
 // Symbols
 
-#ifndef DARWIN
-#ifndef WIN
-#ifndef XBOX
-#ifndef LINUX
-#ifndef RG35XX
+#if !(defined(WIN) || defined(LINUX) || defined(DARWIN))
 #if (__GNUC__ > 3)
 extern unsigned long _end;
 extern unsigned long _start;
@@ -79,10 +67,6 @@ extern unsigned long end;
 extern unsigned long start;
 #define _end end
 #define _start start
-#endif
-#endif
-#endif
-#endif
 #endif
 #endif
 
@@ -111,7 +95,7 @@ u64 getFreeRam(int byte_size)
         return 0;
     }
     return (u64)(((vms.inactive_count + vms.free_count) * size) / byte_size);
-#elif LINUX || RG35XX
+#elif LINUX
     struct sysinfo info;
     sysinfo(&info);
     return ((u64)info.freeram) * info.mem_unit;
@@ -156,7 +140,7 @@ void setSystemRam()
     size_t len = sizeof(mem);
     sysctlbyname("hw.memsize", &mem, &len, NULL, 0);
     systemRam = mem;
-#elif LINUX || RG35XX
+#elif LINUX
     struct sysinfo info;
     sysinfo(&info);
     systemRam = ((u64)info.totalram) * info.mem_unit;
@@ -198,18 +182,8 @@ void setSystemRam()
     stackSize = 0x00000000;
     systemRam = getFreeRam(BYTES);
 #endif
-#ifndef DARWIN
-#ifndef WIN
-#ifndef XBOX
-#ifndef LINUX
-#ifndef SYMBIAN
-#ifndef RG35XX
+#if !(defined(WIN) || defined(LINUX) || defined(DARWIN) || defined(SYMBIAN) || defined(VITA))
     stackSize = (int)&_end - (int)&_start + ((int)&_start - elfOffset);
-#endif
-#endif
-#endif
-#endif
-#endif
 #endif
     getRamStatus(BYTES);
 }
@@ -240,7 +214,7 @@ u64 getUsedRam(int byte_size)
         return 0;
     }
     return info.resident_size / byte_size;
-#elif LINUX || RG35XX
+#elif LINUX
     unsigned long vm = 0;
     FILE *file = fopen("/proc/self/statm", "r");
     if (file == NULL)
@@ -260,9 +234,13 @@ u64 getUsedRam(int byte_size)
 
 void getRamStatus(int byte_size)
 {
-    printf("Total Ram: %"PRIu64" Bytes\n Free Ram: %"PRIu64" Bytes\n Used Ram: %"PRIu64" Bytes\n\n",
-           getSystemRam(byte_size),
-           getFreeRam(byte_size),
-           getUsedRam(byte_size));
+  u64 system_ram = getSystemRam(byte_size);
+  u64 free_ram = getFreeRam(byte_size);
+  u64 used_ram = getUsedRam(byte_size);
+
+  printf("Total Ram: %11"PRIu64" Bytes ( %5"PRIu64" MB )\n Free Ram: %11"PRIu64" Bytes ( %5"PRIu64" MB )\n Used Ram: %11"PRIu64" Bytes ( %5"PRIu64" MB )\n\n",
+           system_ram, system_ram >> 20,
+           free_ram, free_ram >> 20,
+           used_ram, used_ram >> 20);
 }
 

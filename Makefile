@@ -607,7 +607,7 @@ endif
 
 ifdef BUILD_RG35XX
 #CFLAGS 	   += -D_REENTRANT -DOPENDINGUX -DGCW0 -O2 -fomit-frame-pointer -ffunction-sections -ffast-math -fsingle-precision-constant -march=armv5te -mtune=arm926ej-s
-CFLAGS 	       += -D_REENTRANT -DRG35XX -Os -fomit-frame-pointer -ffunction-sections -ffast-math -fsingle-precision-constant -marm -mtune=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -march=armv7-a
+CFLAGS 	       += -DLINUX -DRG35XX -Os -fomit-frame-pointer -ffunction-sections -ffast-math -fsingle-precision-constant -marm -mtune=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -march=armv7-a
 CFLAGS 	       += -DRG35XX_BUTTON_UP=SDLK_w
 CFLAGS 	       += -DRG35XX_BUTTON_DOWN=SDLK_s
 CFLAGS 	       += -DRG35XX_BUTTON_LEFT=SDLK_q

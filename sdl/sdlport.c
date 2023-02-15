@@ -39,11 +39,6 @@ char paksDir[128] = {"Paks"};
 char savesDir[128] = {"/mnt/int_sd/.OpenBOR/Saves"};
 char logsDir[128] = {"/mnt/int_sd/.OpenBOR/Logs"};
 char screenShotsDir[128] = {"/mnt/int_sd/.OpenBOR/ScreenShots"};
-#elif RG35XX
-char paksDir[128] = {"Paks"};
-char savesDir[128] = {"Saves"};
-char logsDir[128] = {"Logs"};
-char screenShotsDir[128] = {"ScreenShots"};
 #else
 char paksDir[128] = {"Paks"};
 char savesDir[128] = {"Saves"};

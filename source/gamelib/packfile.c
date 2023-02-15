@@ -40,7 +40,7 @@
 #include <sifdev.h>
 #endif
 
-#if GP2X || LINUX || OPENDINGUX || SYMBIAN || RG35XX
+#if GP2X || LINUX || OPENDINGUX || SYMBIAN
 #define	stricmp	strcasecmp
 #endif
 
@@ -65,7 +65,7 @@ static const size_t USED_FLAG = (((size_t) 1) << ((sizeof(size_t) * 8) - 1));
 // cacheblocks must be 255 or less!
 //
 #define CACHEBLOCKSIZE (32768)
-#ifndef OPENDINGUX || RG35XX
+#ifndef OPENDINGUX
 #define CACHEBLOCKS    (96)
 #else
 #define CACHEBLOCKS    (8)

@@ -20,11 +20,11 @@
 #include "openbor.h"
 #include "packfile.h"
 
-#if PSP || WIN || LINUX || GP2X || OPENDINGUX || SYMBIAN || RG35XX
+#if PSP || WIN || LINUX || GP2X || OPENDINGUX || SYMBIAN
 #include <dirent.h>
 #endif
 
-#if GP2X || LINUX || OPENDINGUX || RG35XX
+#if GP2X || LINUX || OPENDINGUX
 #include <sys/stat.h>
 #endif
 
@@ -59,7 +59,7 @@
 #include "savepng.h"
 #endif
 
-#if PSP || GP2X || LINUX || OPENDINGUX || WII || SYMBIAN || RG35XX
+#if PSP || GP2X || LINUX || OPENDINGUX || WII || SYMBIAN
 #define MKDIR(x) mkdir(x, 0777)
 #else
 #define MKDIR(x) mkdir(x)
@@ -106,13 +106,6 @@
 #define READ_LOGFILE(type)   type ? fopen("/mnt/int_sd/.OpenBOR/Logs/OpenBorLog.txt", "rt") : fopen("/mnt/int_sd/.OpenBOR/Logs/ScriptLog.txt", "rt")
 #define COPY_ROOT_PATH(buf, name) strncpy(buf, "/mnt/int_sd/.OpenBOR/", 25); strncat(buf, name, strlen(name)); strncat(buf, "/", 1);
 #define COPY_PAKS_PATH(buf, name) strncpy(buf, "Paks/", 30); strncat(buf, name, strlen(name));
-#elif RG35XX
-#define CHECK_LOGFILE(type)  type ? fileExists("./Logs/OpenBorLog.txt") : fileExists("./Logs/ScriptLog.txt")
-#define OPEN_LOGFILE(type)   type ? fopen("./Logs/OpenBorLog.txt", "wt") : fopen("./Logs/ScriptLog.txt", "wt")
-#define APPEND_LOGFILE(type) type ? fopen("./Logs/OpenBorLog.txt", "at") : fopen("./Logs/ScriptLog.txt", "at")
-#define READ_LOGFILE(type)   type ? fopen("./Logs/OpenBorLog.txt", "rt") : fopen("./Logs/ScriptLog.txt", "rt")
-#define COPY_ROOT_PATH(buf, name) strncpy(buf, "./", 2); strncat(buf, name, strlen(name)); strncat(buf, "/", 1);
-#define COPY_PAKS_PATH(buf, name) strncpy(buf, "./Paks/", 7); strncat(buf, name, strlen(name));
 #else
 #define CHECK_LOGFILE(type)  type ? fileExists("./Logs/OpenBorLog.txt") : fileExists("./Logs/ScriptLog.txt")
 #define OPEN_LOGFILE(type)   type ? fopen("./Logs/OpenBorLog.txt", "wt") : fopen("./Logs/ScriptLog.txt", "wt")
@@ -213,7 +206,7 @@ int dirExists(char *dname, int create)
     }
     if(create)
     {
-#ifdef GCW0 || RG35XX
+#ifdef GCW0
 	char command[256] = {"mkdir -p "};
 	strcat(command, realName);
 	fd2 = system(command);

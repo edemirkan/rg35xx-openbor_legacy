@@ -34,7 +34,7 @@
 extern const struct openbor_logo_320x240_png;
 extern int videoMode;
 
-#if GP2X || DARWIN || OPENDINGUX || WII || RG35XX
+#if GP2X || DARWIN || OPENDINGUX || WII
 #define SKIP_CODE
 #endif
 

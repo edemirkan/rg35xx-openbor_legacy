@@ -172,7 +172,7 @@ int findPaks(void)
 	struct dirent* ds;
 #ifdef WII
 	dp = opendir("sd:/apps/OpenBOR/Paks");
-#elif GCW0 || RG35XX
+#elif GCW0
 	dp = opendir("Paks");
 #else
 	dp = opendir(paksDir);

@@ -51,7 +51,7 @@ Caution: move vorbis headers here otherwise the structs will
 #include "borendian.h"
 
 
-#if LINUX || GP2X || OPENDINGUX || SYMBIAN  || RG35XX
+#if LINUX || GP2X || OPENDINGUX || SYMBIAN
 #define stricmp strcasecmp
 #endif
 

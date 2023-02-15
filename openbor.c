@@ -30262,7 +30262,7 @@ void init_videomodes(int log)
 #elif GP2X
     tryfile("data/videogp2x.txt");
     tryfile("data/video43.txt");
-#elif OPENDINGUX || RG35XX
+#elif OPENDINGUX
     tryfile("data/videoopendingux.txt");
     tryfile("data/video43.txt");
 #elif SYMBIAN
@@ -30377,10 +30377,6 @@ readfile:
     }
 
 #if OPENDINGUX || GP2X
-    videoMode = 0;
-#endif
-
-#if RG35XX
     videoMode = 0;
 #endif
 
@@ -31566,7 +31562,7 @@ void video_options()
         _menutext((selector == 2), col1, -1, Tr("Window Offset:"));
         _menutext((selector == 2), col2, -1, "%i", savedata.windowpos);
 
-#if OPENDINGUX || RG35XX 
+#if OPENDINGUX
         _menutext((selector == 3), col1, 0, Tr("Display Mode:"));
         _menutext((selector == 3), col2, 0, savedata.fullscreen ? Tr("Full") : Tr("Window"));
         _menutextm((selector == 4), 6, 0, Tr("Back"));
@@ -31623,7 +31619,7 @@ void video_options()
 #endif
 
 #if SDL
-#if !defined(GP2X) && !defined(OPENDINGUX) && !defined(RG35XX)
+#if !defined(GP2X) && !defined(OPENDINGUX)
         _menutext((selector == 3), col1, 0, Tr("Display Mode:"));
         _menutext((selector == 3), col2, 0, savedata.fullscreen ? Tr("Full") : Tr("Window"));
 
@@ -31801,7 +31797,7 @@ void video_options()
                 break;
 #if SDL || PSP || XBOX || WII
             case 3:
-#if OPENDINGUX || RG35XX
+#if OPENDINGUX
                 video_fullscreen_flip();
                 break;
 #endif
@@ -31900,7 +31896,7 @@ void video_options()
 
 
 #if SDL
-#if !defined(GP2X) && !defined(OPENDINGUX) && !defined(RG35XX)
+#if !defined(GP2X) && !defined(OPENDINGUX)
                 video_fullscreen_flip();
                 break;
             case 4:
